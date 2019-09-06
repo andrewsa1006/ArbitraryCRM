@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col s1 offset-s2"><strong>Customer</strong></div>
+  <div class="col s1"><strong>Customer ID</strong></div>
+  <div class="col s1"><strong>Priority</strong></div>
+  <div class="col s1"><strong>Status</strong></div>
+  <div class="col s1"><strong>Opened</strong></div>
+  <div class="col s1"><strong>Updated</strong></div>
+  <div class="col s1"><strong>Ticket ID</strong></div>
+  <div class="col s1"><strong>View Ticket</strong></div>
+</div>
+{{#each ticket}}
+  <div class="row ">
+    <div class="col s1 offset-s2">{{customerName}}</div>
+    <div class="col s1">{{customerID}}</div>
+    <div class="col s1">{{ticketPriority}}</div>
+    <div class="col s1">{{ticketStatus}}</div>
+    <div class="col s1">{{ticketDate ticketOpenDate}} by {{ticketOpenedBy}}</div>
+    <div class="col s1">{{ticketDate ticketUpdateDate}} by {{ticketUpdatedBy}}</div>
+    <div class="col s1">{{ticket_id}}</div>
+    <div class="col s1"><a href="#editTicketModal" class="btn-small blue darken-2 modal-trigger">View</a></div>
+    <div id="editTicketModal" class="modal">
+    <div class="modal-content">
+      <h5>{{callerName}}<i class="far fa-window-close modal-close right"></i></h5>
+        <h6>{{callbackNumber}}</h6> 
+        <h6>{{facilityName}}</h6>
+        <br>
+      <br>
+        <span>{{{ticketBody}}}</span>
+      <br>
+      {{#if isOpen}}
+      <form action="/ticket/update_ticket/{{ticket_id}}?_method=PUT" method="POST">
+      <input type="hidden" name="_method" value="PUT">
+      <div class="row">
+        <div class="col s12 input-field">
+          <textarea name="updateBody" id="updateBody" class="materialize-textarea"></textarea>
+          <label for="updateBody">Update Ticket</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s4 input-field">
+            <div class="switch">
+              <label class="black-text">
+                <span class="green-text">Leave Open</span>
+                <input type="checkbox" name="open" id="open">
+                <span class="lever"></span>
+                <span class="red-text">Close Ticket</span>
+              </label>
+            </div>
+          </div>
+          <div class="input-field col s4">
+            <div class="switch">
+              <label class="black-text">
+                Normal Priority
+                <input type="checkbox" name="priority" id="priority">
+                <span class="lever"></span>
+                <span class="red-text">High Priority</span>
+              </label>
+            </div>
+          </div>
+      </div>
+      <button type="submit" class="btn-small blue darken-2 waves-effect">Update Ticket</button>
+      </form>
+      {{/if}}
+    </div>
+  </div>
+  </div>
+{{/each}}

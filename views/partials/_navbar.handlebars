@@ -1,0 +1,102 @@
+<nav class="blue darken-2">
+  <div class="nav-wrapper blue darken-2 container">
+    <a href="/" class="brand-logo">Arbitrary CRM</a>
+    {{#if user}}
+    <ul class="right hide-on-med-and-down">
+      <li><a class="dropdown-trigger hide-on-med-and-down" href="#!" data-target="ticketDropdown">Tickets<i class="material-icons right">arrow_drop_down</i></a></li>
+      <li><a class="dropdown-trigger hide-on-med-and-down" href="#!" data-target="customerDropdown">Customers<i class="material-icons right">arrow_drop_down</i></a></li>
+      <li><a class="white-text button-collapse show-on-large sidenav-trigger" data-target="slide-out" href="#!"><i class="fas fa-user-cog"></i></a></li>
+    </ul>
+    {{/if}}
+  </div>
+</nav>
+
+{{!-- Dropdowns --}}
+<ul id="ticketDropdown" class="dropdown-content blue darken-2">
+  <li><a class="white-text" href="/ticket/allopen">View Open Tickets<span class="badge white-text">{{{count}}}</span></a></li>
+  <li><a class="white-text" href="/ticket/allclosed">View Closed Tickets</a></li>
+  <li><a class="white-text" href="/ticket/mytickets">View My Tickets</a></li>
+</ul>
+
+<ul id="customerDropdown" class="dropdown-content blue darken-2">
+  <li><a class="white-text" href="/customer/viewby/id">View By Customer ID</a></li>
+  <li><a class="white-text" href="/customer/viewby/name">View By Customer Name</a></li>
+  <li><a class="white-text" href="/customer/viewby/city">View By City</a></li>
+  <li><a class="white-text" href="/customer/viewby/state">View By State</a></li>
+  <li><a class="white-text waves-effect waves-light modal-trigger" href="#addCustomerModal">Add A Customer</a></li>
+</ul>
+
+{{!-- Add customer modal --}}
+<div id="addCustomerModal" class="modal">
+    <div class="modal-content">
+      <h4 class="center">Add A Customer<i class="far fa-window-close modal-close right"></i></h4>
+      <form class="" action="/customer" method="post">
+        <div class="row">
+          <div class="col s4 input-field">
+            <input type="text" name="custname" id="custname">
+            <label for="custname">Customer Name</label>
+          </div>
+          <div class="col s4 input-field">
+            <input type="number" name="_id" id="_id">
+            <label for="_id">Customer ID</label>
+          </div>
+          <div class="col s4 input-field">
+            <input type="text" name="phone" id="phone">
+            <label for="phone">Phone</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s4 input-field">
+            <input type="email" name="email" id="email">
+            <label for="email">Email Address</label>
+          </div>
+          <div class="col s4 input-field">
+            <input type="text" name="pcontact" id="pcontact">
+            <label for="pcontact">Primary Contact Method</label>
+          </div>
+          <div class="col s4 input-field">
+            <input type="text" name="address" id="address">
+            <label for="address">Address</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s4 input-field">
+            <input type="number" name="zipcode" id="zipcode">
+            <label for="zipcode">ZipCode</label>
+          </div>
+          <div class="col s4 input-field">
+            <input type="text" name="city" id="city">
+            <label for="city">City</label>
+          </div>
+          <div class="col s4 input-field">
+            <input type="text" name="state" id="state">
+            <label for="state">State</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 input-field">
+            <textarea name="customerNotes" id="customerNotes" class="materialize-textarea"></textarea>
+            <label for="customerNotes">Customer Notes</label>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn btn-small blue darken-2" type="submit">Add Customer</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+
+  {{!-- Side nav --}}
+    <ul id="slide-out" class="sidenav">
+    <li><div class="user-view blue">
+      <a href="#user"><img class="circle" src="{{user.image}}"></a>
+      <a href="#name"><span class="white-text text-darken-2 name">{{user.firstName}} {{user.lastName}}</span></a>
+      <a href="#email"><span class="white-text text-darken-2 email">{{user.email}}</span></a>
+    </div></li>
+    <li><a href="/dashboard" class="waves-effect"><i class="fas fa-chart-line"></i>Dashboard</a></li>
+    <li><a href="#!" class="waves-effect">Settings</a></li>
+    <li><div class="divider"></div></li>
+    <li><a href="/auth/logout" class="waves-effect">Logout</a></li>
+  </ul>

@@ -1,0 +1,187 @@
+{{!-- Table on top of the page to display customer information --}}
+<div class="row">
+  <div class="col s2">
+    <ul class="collection">
+      <li class="collection-item center-align blue darken-2 white-text">Customer ID:</li>
+      <li class="collection-item center-align blue darken-2 white-text">Address:</li>
+      <li class="collection-item center-align blue darken-2 white-text">City:</li>
+      <li class="collection-item center-align blue darken-2 white-text">State:</li>
+      <li class="collection-item center-align blue darken-2 white-text">ZipCode:</li>
+      <li class="collection-item center-align blue darken-2 white-text">Phone:</li>
+      <li class="collection-item center-align blue darken-2 white-text">Email:</li>
+      <li class="collection-item center-align blue darken-2 white-text">Primary Contact Method:</li>
+    </ul>
+  </div>
+  <div class="col s4">
+    <ul class="collection">
+      <li class="collection-item">{{customer.custname}}</li>
+      <li class="collection-item">{{customer.address}}</li>
+      <li class="collection-item">{{customer.city}}</li>
+      <li class="collection-item">{{customer.state}}</li>
+      <li class="collection-item">{{customer.zipcode}}</li>
+      <li class="collection-item">{{customer.phone}}</li>
+      <li class="collection-item">{{customer.email}}</li>
+      <li class="collection-item">{{customer.pcontact}}</li>
+    </ul>
+  </div>
+</div>
+{{!-- Tabs --}}
+<div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s3"><a href="#customerTicketsTab">Customer Tickets</a></li>
+        <li class="tab col s3"><a href="#customerNotesTab">Customer Notes</a></li>
+      </ul>
+    </div>
+    {{!-- Customer Notes Tab --}}
+    <div id="customerNotesTab" class="col s12 mt-1 card"><h6>{{customer.customerNotes}}</h6></div>
+    {{!-- Customer Tickets Tab --}}
+    <div id="customerTicketsTab" class="col s12 mt-1">
+      <div class="row">
+        <div class="input-field col s4">
+          <i class="material-icons prefix">search</i>
+          <input type="search" name="add_ticketsearch" id="add_ticketsearch">
+          <label for="add_ticketsearch">Search Ticket History</label>
+        </div>
+        {{!-- Here is the add ticket section --}}
+        <div class="col s8">
+          <ul class="collapsible">
+            <li>
+              <div class="collapsible-header"><i class="material-icons">add</i>Add Ticket</div>
+              <div class="collapsible-body">
+                <form action="/customer/viewcustomer/{{customer._id}}" method="post">
+                  <div class="row">
+                    <div class="input-field col s4">
+                      <input type="text" id="callerName" name="callerName">
+                      <label for="callerName">Caller Name</label>
+                    </div>
+                    <div class="input-field col s4">
+                      <input type="text" name="callbackNumber" id="callbackNumber">
+                      <label for="callbackNumber">Callback Number</label>
+                    </div>
+                    <div class="input-field col s4">
+                      <select id="reasonForCall" name="reasonForCall">
+                        <option class="blue-text" value="" disabled selected>Choose</option>
+                        <option class="blue-text" value="Customer Service">Customer Service</option>
+                        <option class="blue-text" value="Technical Support">Technical Support</option>
+                        <option class="blue-text" value="Other">Other</option>
+                      </select>
+                      <label for="reasonForCall">Reason For Call</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col s12 input-field">
+                      <textarea name="ticketBody" id="ticketBody" class="materialize-textarea"></textarea>
+                      <label for="ticketBody">Text Of Ticket</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s4">
+                      <input type="text" class="ticketID black-text" readonly name="ticket_id" id="ticket_id" value="{{customer._id}}{{ticketID}}">
+                      <label for="ticket_id">Ticket ID</label>
+                    </div>
+                    <div class="col s4 input-field">
+                      <div class="switch">
+                        <label class="black-text">
+                          <span class="green-text">Leave Open</span>
+                          <input type="checkbox" name="open" id="open">
+                          <span class="lever"></span>
+                          <span class="red-text">Close Ticket</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="input-field col s4">
+                      <div class="switch">
+                        <label class="black-text">
+                          Normal Priority
+                          <input type="checkbox" name="priority" id="priority">
+                          <span class="lever"></span>
+                          <span class="red-text">High Priority</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <input type="text" name="name" id="name" hidden value="{{customer.custname}}">
+                    <button class="btn btn-flat blue darken-2 white-text" type="submit">Submit Ticket</button>
+                  </div>
+                </form>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+            <div class="col s2 center"><strong>Caller Name</strong></div>
+            <div class="col s2 center"><strong>Priority</strong></div>
+            <div class="col s2 center"><strong>Ticket ID</strong></div>
+            <div class="col s2 center"><strong>Opened</strong></div>
+            <div class="col s2 center"><strong>Updated</strong></div>
+            <div class="col s2 center"><strong>Status:</strong></div>
+          </div>
+          {{#each customer.tickets}}
+          <div class="row">
+            <div class="col s2 center">{{callerName}}</div>
+            <div class="col s2 center">{{ticketPriority}}</div>
+            <div class="col s2 center">{{ticket_id}}</div>
+            <div class="col s2 center">{{ticketDate ticketOpenDate}}</div>
+            <div class="col s2 center">{{ticketDate ticketUpdateDate}}</div>
+            {{#if isOpen}}
+            <div class="col s2 green-text center">Open</div>
+            {{else}}
+            <div class="col s2 red-text center">Closed on {{ticketDate ticketUpdateDate}}</div>
+            {{/if}}
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <ul class="collapsible">
+              <li>
+                <div class="collapsible-header"><i class="material-icons">pageview</i>View Ticket</div>
+                <div class="collapsible-body">
+                  <h5>{{callerName}}</h5>
+                  <h6>{{callbackNumber}}</h6> 
+                  <br>
+                <br>
+                  <span>{{{ticketBody}}}</span>
+                <br>
+                {{#if isOpen}}
+                <form action="/ticket/update_ticket/{{ticket_id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="row">
+                  <div class="col s12 input-field">
+                    <textarea name="updateBody" id="updateBody" class="materialize-textarea"></textarea>
+                    <label for="updateBody">Update Ticket</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s4 input-field">
+                      <div class="switch">
+                        <label class="black-text">
+                          <span class="green-text">Leave Open</span>
+                          <input type="checkbox" name="open" id="open">
+                          <span class="lever"></span>
+                          <span class="red-text">Close Ticket</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="input-field col s4">
+                      <div class="switch">
+                        <label class="black-text">
+                          Normal Priority
+                          <input type="checkbox" name="priority" id="priority">
+                          <span class="lever"></span>
+                          <span class="red-text">High Priority</span>
+                        </label>
+                      </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-small blue darken-2 waves-effect">Update Ticket</button>
+                </form>
+                {{/if}}
+                </div>
+              </li>
+            </ul>
+            </div>
+          </div>
+          {{/each}}
+      </div> 
+    </div>
+  </div>

@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col s2 offset-s2"><strong>Customer ID</strong></div>
+  <div class="col s2"><strong>Customer Name</strong></div>
+  <div class="col s2"><strong>City</strong></div>
+  <div class="col s2"><strong>State</strong></div>
+  <div class="col s2"><strong>View</strong></div>
+</div>
+{{#each customer}}
+  <div class="row card">
+      <div class="col offset-s2 s2">{{_id}}</div>
+      <div class="col  s2">{{custname}}</div>
+      <div class="col  s2">{{city}}</div>
+      <div class="col  s2">{{state}}</div>
+      <div class="col  s2"><a href="/customer/viewcustomer/{{_id}}" class="btn blue darken-2 btn-small">View</a></div>
+  </div>
+{{else}}
+  <div class="card center">
+  <h4>No customers found.</h4>
+  <div><a href="#addCustomerModal" class="btn blue darken-3 modal-trigger">Add one</a></div>
+  <br>
+  </div>
+{{/each}}
